@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 
 # Это для связи с базой (создадим позже)
-from shared.database.base import Base
+from app.bot.database.base import Base
 
 def utc_now():
     return datetime.now(timezone.utc)

@@ -1,5 +1,5 @@
 from aiogram import Dispatcher
-from bot.handlers import register_routers
+from app.bot.handlers import register_routers
 
 def setup_dispatcher() -> Dispatcher:
     dp = Dispatcher()

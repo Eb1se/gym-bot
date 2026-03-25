@@ -1,7 +1,7 @@
 import asyncio
 import logging
-from bot.core import dp, bot
-from shared.database.base import create_tables, engine
+from app.bot.core import dp, bot
+from app.bot.database.base import create_tables, engine
 
 logging.basicConfig(level=logging.INFO)
 
