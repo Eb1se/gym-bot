@@ -21,4 +21,4 @@ def test_user_creation():
     assert user.username == "Eb1se"
     assert user.first_name == "Максим"
 
-#запуск python -m pytest tests/test_models.py -v
+#запуск python -m pytest tests/test_database/test_models.py -v

@@ -7,7 +7,7 @@ TODO:
 
 def utc_now():
     """Берем функцию из models.py"""
-    return datetime.now(timezone.utc)
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 def test_utc_now_returns_datetime():
     """Проверяем соответствует ли значение которое вернула функция datetime"""
@@ -27,4 +27,4 @@ def test_utc_now_not_none():
     assert result is not None
     print(f"✅ Время: {result}")
 
-# Запускается: python -m pytest tests/test_utc_now.py -v -s
+# Запускается: python -m pytest tests/test_utils/test_utc_now.py -v -s

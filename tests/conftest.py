@@ -1,6 +1,10 @@
 import pytest
 import os
 from dotenv import load_dotenv
+from app.bot.database.models import User
+from httpx import AsyncClient, ASGITransport
+from main_api import app 
+
 
 load_dotenv()
 
@@ -13,5 +17,10 @@ print(f"✅ Тестовый режим с токеном: {os.environ['BOT_TOKE
 @pytest.fixture
 def test_user():
     """Создает тестового пользователя"""
-    from app.database.models import User
     return User(telegram_id=123, username="test")
+
+@pytest.fixture
+async def client():
+    """Фикстура для тестирования API"""
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+        yield client
