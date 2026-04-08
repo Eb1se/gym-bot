@@ -6,7 +6,7 @@ class APIClient:
     """
     Клиент для вызова нашего FastAPI из бота.
     """
-    def __init__(self, base_url: str = "http://localhost:8000"):
+    def __init__(self, base_url: str = "http://api:8000"):
         self.base_url = base_url
         self.client = httpx.AsyncClient(timeout=10.0)
     
@@ -19,7 +19,7 @@ class APIClient:
         """
         Регистация пользователя через API
         """
-        url = f"{self.base_url}/users/register"
+        url = f"{self.base_url}/api/v1/users/register"
 
         payload = {
             "telegram_id": telegram_id,
