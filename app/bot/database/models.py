@@ -6,7 +6,8 @@ from datetime import datetime, timezone
 from app.bot.database.base import Base
 
 def utc_now():
-    return datetime.now(timezone.utc)
+    """Возвращает текущее UTC время как naive datetime для PostgreSQL"""
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 class User(Base):
     __tablename__ = "users"
