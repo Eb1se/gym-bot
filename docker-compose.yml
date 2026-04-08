@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: gym_postgres
+    environment:
+      POSTGRES_DB: gym_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 220724
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    build: .
+    container_name: gym_bot
+    command: python main.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: gym_api
+    command: uvicorn main_api:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:220724@postgres/gym_bot
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  tests:
+    build: .
+    container_name: gym_tests
+    command: pytest tests/ -v
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:220724@postgres/gym_bot
+      BOT_TOKEN: test_token_123
+    volumes:
+      - .:/app
+    profiles:
+      - tests
+
+volumes:
+  postgres_data:
