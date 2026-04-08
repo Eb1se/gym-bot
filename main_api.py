@@ -9,7 +9,7 @@ app = FastAPI(
     version="0.1.0"
 )
 
-app.include_router(users_router)
+app.include_router(users_router, prefix = "/api/v1")
 
 @app.get("/")
 async def root():
